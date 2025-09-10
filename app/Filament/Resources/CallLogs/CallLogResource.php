@@ -21,7 +21,7 @@ class CallLogResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = 'heroicon-o-phone-arrow-down-left';
 
-    protected static string | UnitEnum | null $navigationGroup = 'Main Menu';
+    protected static string | UnitEnum | null $navigationGroup = 'Call Center';
 
     protected static ?int $navigationSort = 0;
 

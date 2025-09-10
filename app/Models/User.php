@@ -8,6 +8,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
@@ -63,5 +64,25 @@ class User extends Authenticatable
     public function hasRole(string|array $roles): bool
     {
         return in_array($this->role->name, Arr::wrap($roles));
+    }
+
+    public function emergencyCases(): HasMany
+    {
+        return $this->hasMany(EmergencyCase::class);
+    }
+
+    public function callLogs(): HasMany
+    {
+        return $this->hasMany(CallLog::class);
+    }
+
+    public function Tasks(): HasMany
+    {
+        return $this->hasMany(Task::class);
+    }
+
+    public function cameraAudits(): HasMany
+    {
+        return $this->hasMany(CameraAudit::class);
     }
 }

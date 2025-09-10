@@ -30,10 +30,11 @@ class AuthPanelProvider extends PanelProvider
             ->login()
             ->profile()
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => Color::Violet,
             ])
             ->navigationGroups([
-                'Main Menu',
+                'Call Center',
+                'Surveillance',
                 'Settings',
             ])
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')

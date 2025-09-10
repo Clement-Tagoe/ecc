@@ -23,9 +23,9 @@ class RegionResource extends Resource
 
     protected static ?string $recordTitleAttribute = 'name';
 
-    protected static string | UnitEnum | null $navigationGroup = 'Main Menu';
+    protected static string | UnitEnum | null $navigationGroup = 'Call Center';
 
-    protected static ?int $navigationSort = 4;
+    protected static ?int $navigationSort = 3;
 
     public static function form(Schema $schema): Schema
     {

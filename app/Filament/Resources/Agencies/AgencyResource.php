@@ -23,11 +23,11 @@ class AgencyResource extends Resource
 
     protected static ?string $navigationLabel = 'Responding Agencies';
 
-    protected static string | UnitEnum | null $navigationGroup = 'Main Menu';
+    protected static string | UnitEnum | null $navigationGroup = 'Call Center';
 
     protected static ?string $recordTitleAttribute = 'name';
 
-    protected static ?int $navigationSort = 3;
+    protected static ?int $navigationSort = 2;
 
     public static function form(Schema $schema): Schema
     {

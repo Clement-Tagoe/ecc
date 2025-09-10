@@ -8,6 +8,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\MarkdownEditor;
+use Filament\Forms\Components\TimePicker;
 
 class TaskForm
 {
@@ -23,6 +24,10 @@ class TaskForm
                             'Day' => 'Day',
                             'Night' => 'Night',
                         ])->required(),
+                TimePicker::make('time')
+                    ->required()
+                    ->helperText('Time event occured')
+                    ->format('H:i'),
                 MarkdownEditor::make('observation')
                     ->required()
                     ->columnSpanFull(),

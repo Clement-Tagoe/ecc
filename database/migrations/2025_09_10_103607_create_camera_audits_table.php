@@ -11,18 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tasks', function (Blueprint $table) {
+        Schema::create('camera_audits', function (Blueprint $table) {
             $table->id();
             $table->date('date');
             $table->time('time');
-            $table->string('shift');
-            $table->text('observation');
-            $table->foreignId('region_id')->constrained()->cascadeOnDelete();
-            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->string('location');
-            $table->string('camera name(s)');
-            $table->string('topic');
-            $table->text('recommendation');
+            $table->string('camera_name');
+            $table->string('camera_status');
+            $table->string('observation');
+            $table->foreignId('user_id');
             $table->string('created_by');
             $table->timestamps();
         });
@@ -33,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tasks');
+        Schema::dropIfExists('camera_audits');
     }
 };

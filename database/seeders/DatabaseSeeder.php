@@ -27,6 +27,8 @@ class DatabaseSeeder extends Seeder
             RegionSeeder::class,
             EmergencyCaseSeeder::class,
             CallLogSeeder::class,
+            TaskSeeder::class,
+            CameraAuditSeeder::class,
         ]);
     }
 }

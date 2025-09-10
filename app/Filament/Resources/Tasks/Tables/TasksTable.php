@@ -29,6 +29,9 @@ class TasksTable
                  TextColumn::make('shift')
                     ->searchable()
                     ->sortable(),
+                TextColumn::make('time')
+                    ->formatStateUsing(fn ($state) => \Carbon\Carbon::parse($state)->format('h:i a'))
+                    ->sortable(),
                 TextColumn::make('topic')
                     ->searchable()
                     ->sortable(),
