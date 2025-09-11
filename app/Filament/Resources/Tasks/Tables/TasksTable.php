@@ -3,12 +3,14 @@
 namespace App\Filament\Resources\Tasks\Tables;
 
 use Carbon\Carbon;
+use App\Models\User;
 use Filament\Tables\Table;
 use Filament\Actions\EditAction;
+use Filament\Actions\ViewAction;
 use Filament\Tables\Filters\Filter;
+use Illuminate\Support\Facades\Auth;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
-use Filament\Actions\ViewAction;
 use Filament\Tables\Filters\Indicator;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\FiltersLayout;
@@ -21,6 +23,13 @@ class TasksTable
     public static function configure(Table $table): Table
     {
         return $table
+            ->modifyQueryUsing(function ($query) {
+                $userId = Auth::id();
+                $user = User::findOrFail($userId);
+                if (!$user->hasRole(['Administrator', 'Director', 'Senior Supervisor'])) {
+                    $query->where('user_id', $user->id);
+                }
+            })
             ->defaultSort('created_at', 'desc')
             ->columns([
                 TextColumn::make('date')

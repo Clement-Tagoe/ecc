@@ -7,19 +7,26 @@ use Flowframe\Trend\Trend;
 use App\Models\EmergencyCase;
 use Flowframe\Trend\TrendValue;
 use Filament\Widgets\ChartWidget;
+use Filament\Widgets\Concerns\InteractsWithPageFilters;
+
 
 class EmergencyCasesChart extends ChartWidget
 {
+    use InteractsWithPageFilters;
+
     protected ?string $heading = 'Emergency Cases Chart';
 
     protected static ?int $sort = 1;
 
     protected function getData(): array
     {
+        $startDate = $this->pageFilters['startDate'] ?? null;
+        $endDate = $this->pageFilters['endDate'] ?? null;
+
         $data = Trend::model(EmergencyCase::class)
         ->between(
-            start: Carbon::now()->startOfMonth(),
-            end: Carbon::now()->endOfMonth(),
+            start: Carbon::parse($startDate),
+            end: Carbon::parse($endDate),
         )
         ->perDay()
         ->count();

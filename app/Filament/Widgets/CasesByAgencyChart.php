@@ -6,23 +6,25 @@ use Carbon\Carbon;
 use App\Models\EmergencyCase;
 use Filament\Widgets\ChartWidget;
 use Illuminate\Support\Facades\DB;
+use Filament\Widgets\Concerns\InteractsWithPageFilters;
 
 class CasesByAgencyChart extends ChartWidget
 {
+    use InteractsWithPageFilters;
+
     protected ?string $heading = 'Cases By Agency Chart';
     
     protected static ?int $sort = 2;
 
     protected function getData(): array
     {
-        // Set date range: start of current month to now
-        $startOfMonth = Carbon::now()->startOfMonth();
-        $now = Carbon::now();
+        $startDate = $this->pageFilters['startDate'] ?? null;
+        $endDate = $this->pageFilters['endDate'] ?? null;
         
         // Fetch case counts grouped by agency
         $caseCounts = EmergencyCase::query()
             ->select('agency_id', DB::raw('count(*) as total'))
-            ->whereBetween('created_at', [$startOfMonth, $now])
+            ->whereBetween('created_at', [$startDate, $endDate])
             ->groupBy('agency_id')
             ->with('agency') // Assuming 'agency' is the relationship name
             ->get();
