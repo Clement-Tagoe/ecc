@@ -11,12 +11,14 @@ use Filament\Tables\Filters\Filter;
 use Illuminate\Support\Facades\Auth;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\ExportBulkAction;
 use Filament\Tables\Filters\Indicator;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Forms\Components\DatePicker;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Exports\CameraAuditExporter;
 
 class CameraAuditsTable
 {
@@ -98,6 +100,8 @@ class CameraAuditsTable
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
+                     ExportBulkAction::make()
+                        ->exporter(CameraAuditExporter::class),
                     DeleteBulkAction::make(),
                 ]),
             ]);

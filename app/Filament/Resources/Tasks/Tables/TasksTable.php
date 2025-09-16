@@ -10,7 +10,9 @@ use Filament\Actions\ViewAction;
 use Filament\Tables\Filters\Filter;
 use Illuminate\Support\Facades\Auth;
 use Filament\Actions\BulkActionGroup;
+use App\Filament\Exports\TaskExporter;
 use Filament\Actions\DeleteBulkAction;
+use Filament\Actions\ExportBulkAction;
 use Filament\Tables\Filters\Indicator;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\FiltersLayout;
@@ -105,6 +107,8 @@ class TasksTable
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
+                    ExportBulkAction::make()
+                        ->exporter(TaskExporter::class),
                     DeleteBulkAction::make(),
                 ]),
             ]);
