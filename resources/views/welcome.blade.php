@@ -64,7 +64,7 @@
 
         <div class="w-11/12 md:w-10/12 lg:w-8/12 mx-auto mt-10 flex flex-col items-center justify-center md:flex-row h-96 rounded-lg border border-gray-300">
             <div class="w-full md:w-1/2">
-                <div class="text-[20px] leading-[40px] flex-1 p-6 pb-12 text-center bg-white dark:bg-[#161615] dark:text-[#EDEDEC]">
+                <div class="text-[35px] leading-[40px] flex-1 p-6 pb-12 text-center bg-white dark:bg-[#161615] dark:text-[#EDEDEC]">
                     <h1 class="mb-1 font-medium">Emergency Command Centre</h1>
                     <p class="mb-2 text-[#706f6c] dark:text-[#A1A09A]">Emergency Cases, Surveillance & Task Management System</p>
                 </div>

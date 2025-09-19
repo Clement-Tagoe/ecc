@@ -19,6 +19,7 @@ use Filament\Forms\Components\DatePicker;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Exports\CameraAuditExporter;
+use Filament\Tables\Columns\ImageColumn;
 
 class CameraAuditsTable
 {
@@ -47,6 +48,7 @@ class CameraAuditsTable
                 TextColumn::make('observation'),
                 TextColumn::make('created_by')
                     ->searchable(),
+                ImageColumn::make('image(s)'),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

@@ -17,8 +17,9 @@ return new class extends Migration
             $table->time('time');
             $table->string('camera_name');
             $table->string('camera_status');
-            $table->string('observation');
+            $table->json('observation');
             $table->foreignId('user_id');
+            $table->string('image(s)');
             $table->string('created_by');
             $table->timestamps();
         });
