@@ -17,7 +17,7 @@ use Filament\Tables\Filters\Indicator;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Forms\Components\DatePicker;
-use Filament\Tables\Columns\ImageColumn;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
 
@@ -54,13 +54,12 @@ class TasksTable
                 TextColumn::make('location')
                     ->searchable(),
                 TextColumn::make('camera name(s)'),
+                SpatieMediaLibraryImageColumn::make('images')
+                    ->collection('task-images')
+                    ->conversion('thumb'),
                 TextColumn::make('created_by')
                     ->label('On Duty')
                     ->searchable(),
-            //    ImageColumn::make('images.path')
-            //         ->stacked()
-            //         ->limit(3)
-            //         ->limitedRemainingText(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

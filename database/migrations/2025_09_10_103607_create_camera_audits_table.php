@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('camera_status');
             $table->json('observation');
             $table->foreignId('user_id');
-            $table->string('image(s)');
             $table->string('created_by');
             $table->timestamps();
         });

@@ -47,6 +47,20 @@ return [
             'report' => false,
         ],
 
+        'task-images' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/task-images'),
+            'url' => env('APP_URL') . '/storage/task-images',
+            'visibility' => 'public',
+        ],
+
+        'camera-audit-images' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/camera-audit-images'),
+            'url' => env('APP_URL') . '/storage/camera-audit-images',
+            'visibility' => 'public',
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

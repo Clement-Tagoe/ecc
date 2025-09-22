@@ -8,9 +8,9 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TimePicker;
 use Filament\Forms\Components\MarkdownEditor;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 
 class TaskForm
 {
@@ -65,13 +65,21 @@ class TaskForm
                         MarkdownEditor::make('recommendation')
                             ->required()
                             ->columnSpanFull(),
+                        SpatieMediaLibraryFileUpload::make('media')
+                            ->label('Images')
+                            ->collection('task-images')
+                            ->multiple()
+                            ->maxFiles(5)
+                            ->reorderable()
+                            ->acceptedFileTypes(['image/jpeg', 'image/png'])
+                            ->columnSpanFull(),
                         TextInput::make('created_by')
                             ->label('On Duty')
                             ->default(Auth::user()->name) // Set to current user's name
                             ->disabled() // Make the input non-editable
                             ->dehydrated()
                             ->required(),
-                    ])->columns(2)->columnSpanFull()
+                    ])->columns(2)->columnSpanFull(),
             ]);
     }
 }

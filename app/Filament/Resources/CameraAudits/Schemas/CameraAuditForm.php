@@ -7,8 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TimePicker;
+use Filament\Forms\Components\SpatieMediaLibraryFileUpload;
 
 class CameraAuditForm
 {
@@ -45,12 +45,14 @@ class CameraAuditForm
                     ])
                     ->multiple()
                     ->required(),
-                FileUpload::make('image(s)')
+                SpatieMediaLibraryFileUpload::make('media')
+                    ->label('Images')
+                    ->collection('camera-audit-images')
                     ->multiple()
-                    ->directory('form-attachments')
-                    ->preserveFilenames()
-                    ->image()
-                    ->imageEditor(),
+                    ->maxFiles(5)
+                    ->reorderable()
+                    ->acceptedFileTypes(['image/jpeg', 'image/png'])
+                    ->columnSpanFull(),
                 TextInput::make('created_by')
                     ->label('On Duty')
                     ->default(Auth::user()->name) // Set to current user's name
