@@ -2,19 +2,21 @@
 
 namespace App\Filament\Resources\EmergencyCases;
 
-use App\Filament\Resources\EmergencyCases\Pages\CreateEmergencyCase;
+use UnitEnum;
+use BackedEnum;
+use Filament\Tables\Table;
+use Filament\Schemas\Schema;
+use App\Models\EmergencyCase;
+use Filament\Resources\Resource;
+use Filament\Support\Icons\Heroicon;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\EmergencyCases\Pages\EditEmergencyCase;
-use App\Filament\Resources\EmergencyCases\Pages\ListEmergencyCases;
 use App\Filament\Resources\EmergencyCases\Pages\ViewEmergencyCase;
+use App\Filament\Resources\EmergencyCases\Pages\ListEmergencyCases;
+use App\Filament\Resources\EmergencyCases\Pages\CreateEmergencyCase;
 use App\Filament\Resources\EmergencyCases\Schemas\EmergencyCaseForm;
 use App\Filament\Resources\EmergencyCases\Tables\EmergencyCasesTable;
-use App\Models\EmergencyCase;
-use BackedEnum;
-use UnitEnum;
-use Filament\Resources\Resource;
-use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
-use Filament\Tables\Table;
 
 class EmergencyCaseResource extends Resource
 {
@@ -41,6 +43,14 @@ class EmergencyCaseResource extends Resource
         return [
             //
         ];
+    }
+
+    public static function getRecordRouteBindingEloquentQuery(): Builder
+    {
+        return parent::getRecordRouteBindingEloquentQuery()
+            ->withoutGlobalScopes([
+                SoftDeletingScope::class,
+            ]);
     }
 
     public static function getPages(): array

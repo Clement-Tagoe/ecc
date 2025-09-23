@@ -17,9 +17,10 @@ use Filament\Tables\Filters\Indicator;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Enums\FiltersLayout;
 use Filament\Forms\Components\DatePicker;
-use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Tables\Filters\TrashedFilter;
+use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 
 class TasksTable
 {
@@ -73,7 +74,7 @@ class TasksTable
                 Filter::make('created_at')
                         ->schema([
                             DatePicker::make('created_from')
-                                ->default(Carbon::today()->subDays(2)),
+                                ->default(Carbon::today()->subDays(1)),
                             DatePicker::make('created_until')
                                 ->default(Carbon::today()),
                         ])
@@ -103,7 +104,26 @@ class TasksTable
                         })->columnSpan(2)->columns(2),
                         SelectFilter::make('region')
                         ->relationship('region', 'name'),
-                        
+                        SelectFilter::make('topic')
+                            ->options([
+                                'Bad Roads' => 'Bad Roads',
+                                'Galamsey' => 'Galamsey',
+                                'Sanitation' => 'Sanitation',
+                                'Prostitution' => 'Prostitution',
+                                'Drug Related Activities' => 'Drug Related Activities',
+                                'Special Event' => 'Special Event',
+                                'Markets' => 'Markets',
+                                'ECC Monitoring' => 'ECC Monitoring',
+                                'Non-Functioning Traffic Light' => 'Non-Functioning Traffic Light',
+                                'Faded Road Sign and Road Marking' => 'Faded Road Sign and Road Marking',
+                                'Beggars' => 'Beggars',
+                                'Street Hawkers' => 'Street Hawkers',
+                                'Unusual Behavior' => 'Unusual Behavior',
+                                'Unlawful Car Parking' => 'Unlawful Car Parking',
+                                'Flood' => 'Flood',
+                                'Traffic' => 'Traffic',
+                            ]),
+                        TrashedFilter::make(),
                 ], layout: FiltersLayout::AboveContent)
             ->recordActions([
                 ViewAction::make(),
@@ -114,7 +134,7 @@ class TasksTable
                     ExportBulkAction::make()
                         ->exporter(TaskExporter::class),
                     DeleteBulkAction::make(),
-                ]),
+                ])->visible(fn () => Auth::user()->hasRole(['Administrator', 'Director', 'Senior Supervisor'])),
             ]);
     }
 }

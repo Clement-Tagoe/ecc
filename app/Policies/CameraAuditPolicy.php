@@ -37,7 +37,7 @@ class CameraAuditPolicy
      */
     public function update(User $user, CameraAudit $cameraAudit): bool
     {
-        return $user->id === $cameraAudit->user_id || $user->hasRole(['Administrator', 'Director']);
+        return $user->id === $cameraAudit->user_id || $user->hasRole(['Administrator', 'Director', 'Senior Supervisor']);
     }
 
     /**

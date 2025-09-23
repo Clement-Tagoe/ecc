@@ -6,6 +6,7 @@ use App\Models\User;
 use Filament\Tables\Table;
 use Filament\Actions\Action;
 use Filament\Actions\EditAction;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
@@ -41,7 +42,7 @@ class UsersTable
             ->filters([
                  SelectFilter::make('role')
                     ->relationship('role', 'name'),
-                //  TrashedFilter::make(),
+                 TrashedFilter::make(),
             ])
             ->recordActions([
                 Action::make('Change Password')
@@ -69,7 +70,7 @@ class UsersTable
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
-                ]),
+                ])->visible(fn () => Auth::user()->hasRole(['Administrator', 'Director', 'Senior Supervisor'])),
             ]);
     }
 }

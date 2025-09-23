@@ -37,7 +37,7 @@ class TaskPolicy
      */
     public function update(User $user, Task $task): bool
     {
-        return $user->id === $task->user_id || $user->hasRole(['Administrator', 'Director']);
+        return $user->id === $task->user_id || $user->hasRole(['Administrator', 'Director', 'Senior Supervisor']);
     }
 
     /**

@@ -2,18 +2,20 @@
 
 namespace App\Filament\Resources\CallLogs;
 
-use App\Filament\Resources\CallLogs\Pages\CreateCallLog;
+use UnitEnum;
+use BackedEnum;
+use App\Models\CallLog;
+use Filament\Tables\Table;
+use Filament\Schemas\Schema;
+use Filament\Resources\Resource;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\CallLogs\Pages\EditCallLog;
-use App\Filament\Resources\CallLogs\Pages\ListCallLogs;
 use App\Filament\Resources\CallLogs\Pages\ViewCallLog;
+use App\Filament\Resources\CallLogs\Pages\ListCallLogs;
+use App\Filament\Resources\CallLogs\Pages\CreateCallLog;
 use App\Filament\Resources\CallLogs\Schemas\CallLogForm;
 use App\Filament\Resources\CallLogs\Tables\CallLogsTable;
-use App\Models\CallLog;
-use BackedEnum;
-use UnitEnum;
-use Filament\Resources\Resource;
-use Filament\Schemas\Schema;
-use Filament\Tables\Table;
 
 class CallLogResource extends Resource
 {
@@ -40,6 +42,14 @@ class CallLogResource extends Resource
         return [
             //
         ];
+    }
+
+    public static function getRecordRouteBindingEloquentQuery(): Builder
+    {
+        return parent::getRecordRouteBindingEloquentQuery()
+            ->withoutGlobalScopes([
+                SoftDeletingScope::class,
+            ]);
     }
 
     public static function getPages(): array

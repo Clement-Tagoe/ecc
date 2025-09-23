@@ -22,7 +22,7 @@ class Dashboard extends BaseDashboard
                         DatePicker::make('startDate')
                             ->default(Carbon::now()->startOfMonth()),
                         DatePicker::make('endDate')
-                            ->default(Carbon::now()),
+                            ->default(Carbon::now()->endOfMonth()),
                     ])
                     ->columns(2)->columnSpanFull(),
             ]);

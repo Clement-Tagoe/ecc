@@ -7,6 +7,8 @@ use App\Filament\Resources\Roles\Pages\EditRole;
 use App\Filament\Resources\Roles\Pages\ListRoles;
 use App\Filament\Resources\Roles\Schemas\RoleForm;
 use App\Filament\Resources\Roles\Tables\RolesTable;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Database\Eloquent\Builder;
 use App\Models\Role;
 use BackedEnum;
 use UnitEnum;
@@ -41,6 +43,14 @@ class RoleResource extends Resource
         return [
             //
         ];
+    }
+
+    public static function getRecordRouteBindingEloquentQuery(): Builder
+    {
+        return parent::getRecordRouteBindingEloquentQuery()
+            ->withoutGlobalScopes([
+                SoftDeletingScope::class,
+            ]);
     }
 
     public static function getPages(): array

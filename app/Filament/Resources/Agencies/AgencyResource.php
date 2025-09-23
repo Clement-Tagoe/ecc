@@ -7,6 +7,8 @@ use App\Filament\Resources\Agencies\Pages\EditAgency;
 use App\Filament\Resources\Agencies\Pages\ListAgencies;
 use App\Filament\Resources\Agencies\Schemas\AgencyForm;
 use App\Filament\Resources\Agencies\Tables\AgenciesTable;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Database\Eloquent\Builder;
 use App\Models\Agency;
 use BackedEnum;
 use UnitEnum;
@@ -44,6 +46,14 @@ class AgencyResource extends Resource
         return [
             //
         ];
+    }
+
+    public static function getRecordRouteBindingEloquentQuery(): Builder
+    {
+        return parent::getRecordRouteBindingEloquentQuery()
+            ->withoutGlobalScopes([
+                SoftDeletingScope::class,
+            ]);
     }
 
     public static function getPages(): array

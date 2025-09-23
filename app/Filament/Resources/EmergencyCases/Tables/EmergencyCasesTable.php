@@ -7,6 +7,7 @@ use Filament\Tables\Table;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Filters\Filter;
+use Illuminate\Support\Facades\Auth;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\ExportBulkAction;
@@ -16,6 +17,7 @@ use Filament\Tables\Enums\FiltersLayout;
 use Filament\Forms\Components\DatePicker;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Tables\Filters\TrashedFilter;
 use App\Filament\Exports\EmergencyCaseExporter;
 
 class EmergencyCasesTable
@@ -60,7 +62,7 @@ class EmergencyCasesTable
                     Filter::make('created_at')
                     ->schema([
                         DatePicker::make('created_from')
-                            ->default(Carbon::today()->subDays(2)),
+                            ->default(Carbon::today()->subDays(1)),
                         DatePicker::make('created_until')
                             ->default(Carbon::today()),
                     ])
@@ -92,7 +94,7 @@ class EmergencyCasesTable
                         ->relationship('agency', 'name'),
                     SelectFilter::make('region')
                     ->relationship('region', 'name'),
-                    
+                    TrashedFilter::make(),
                 ], layout: FiltersLayout::AboveContent)
             ->recordActions([
                 ViewAction::make(),
@@ -103,7 +105,7 @@ class EmergencyCasesTable
                     ExportBulkAction::make()
                         ->exporter(EmergencyCaseExporter::class),
                     DeleteBulkAction::make(),
-                ]),
+                ])->visible(fn () => Auth::user()->hasRole(['Administrator', 'Director', 'Senior Supervisor'])),
             ]);
     }
 }

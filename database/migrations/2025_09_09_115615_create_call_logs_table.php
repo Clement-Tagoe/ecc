@@ -20,6 +20,7 @@ return new class extends Migration
             $table->foreignId('user_id');
             $table->string('created_by');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

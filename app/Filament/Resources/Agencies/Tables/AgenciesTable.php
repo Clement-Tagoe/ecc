@@ -2,11 +2,16 @@
 
 namespace App\Filament\Resources\Agencies\Tables;
 
+use Filament\Tables\Table;
+use Filament\Actions\EditAction;
+use Illuminate\Support\Facades\Auth;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
-use Filament\Actions\EditAction;
+use Filament\Actions\RestoreBulkAction;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Table;
+use Filament\Tables\Filters\TrashedFilter;
+use Filament\Actions\ForceDeleteBulkAction;
+
 
 class AgenciesTable
 {
@@ -26,7 +31,7 @@ class AgenciesTable
                     ->toggleable(isToggledHiddenByDefault: false),
             ])
             ->filters([
-                //
+                TrashedFilter::make(),
             ])
             ->recordActions([
                 EditAction::make(),
@@ -34,7 +39,9 @@ class AgenciesTable
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
-                ]),
+                    ForceDeleteBulkAction::make(),
+                    RestoreBulkAction::make(),
+                ])->visible(fn () => Auth::user()->hasRole(['Administrator', 'Director'])),
             ]);
     }
 }

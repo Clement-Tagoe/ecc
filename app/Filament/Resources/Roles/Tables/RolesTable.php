@@ -2,11 +2,13 @@
 
 namespace App\Filament\Resources\Roles\Tables;
 
+use Filament\Tables\Table;
+use Filament\Actions\EditAction;
+use Illuminate\Support\Facades\Auth;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
-use Filament\Actions\EditAction;
 use Filament\Tables\Columns\TextColumn;
-use Filament\Tables\Table;
+use Filament\Tables\Filters\TrashedFilter;
 
 class RolesTable
 {
@@ -26,7 +28,7 @@ class RolesTable
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                TrashedFilter::make(),
             ])
             ->recordActions([
                 EditAction::make(),
@@ -34,7 +36,7 @@ class RolesTable
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
-                ]),
+                ])->visible(fn () => Auth::user()->hasRole(['Administrator', 'Director', 'Senior Supervisor'])),
             ]);
     }
 }

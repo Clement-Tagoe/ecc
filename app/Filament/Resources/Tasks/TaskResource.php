@@ -16,6 +16,8 @@ use App\Filament\Resources\Tasks\Schemas\TaskForm;
 use App\Filament\Resources\Tasks\Tables\TasksTable;
 use Filament\Resources\RelationManagers\RelationManager;
 use App\Filament\Resources\Tasks\RelationManagers\TaskImagesRelationManager;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Database\Eloquent\Builder;
 
 class TaskResource extends Resource
 {
@@ -42,6 +44,14 @@ class TaskResource extends Resource
         return [
          
         ];
+    }
+
+    public static function getRecordRouteBindingEloquentQuery(): Builder
+    {
+        return parent::getRecordRouteBindingEloquentQuery()
+            ->withoutGlobalScopes([
+                SoftDeletingScope::class,
+            ]);
     }
 
     public static function getPages(): array

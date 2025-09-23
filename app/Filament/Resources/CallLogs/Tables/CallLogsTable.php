@@ -7,6 +7,7 @@ use Filament\Tables\Table;
 use Filament\Actions\EditAction;
 use Filament\Actions\ViewAction;
 use Filament\Tables\Filters\Filter;
+use Illuminate\Support\Facades\Auth;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\ExportBulkAction;
@@ -16,6 +17,7 @@ use Filament\Tables\Enums\FiltersLayout;
 use App\Filament\Exports\CallLogExporter;
 use Filament\Forms\Components\DatePicker;
 use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Filters\TrashedFilter;
 use Illuminate\Database\Eloquent\Builder;
 
 class CallLogsTable
@@ -52,7 +54,7 @@ class CallLogsTable
                 Filter::make('created_at')
                     ->schema([
                         DatePicker::make('created_from')
-                            ->default(Carbon::today()->subDays(2)),
+                            ->default(Carbon::today()->subDays(1)),
                         DatePicker::make('created_until')
                             ->default(Carbon::today()),
                     ])
@@ -84,7 +86,8 @@ class CallLogsTable
                         ->options([
                             'Day' => 'Day',
                             'Night' => 'Night',
-                        ]),  
+                        ]),
+                    TrashedFilter::make(),  
                 ], layout: FiltersLayout::AboveContent)
             ->recordActions([
                 ViewAction::make(),
@@ -95,7 +98,7 @@ class CallLogsTable
                     ExportBulkAction::make()
                         ->exporter(CallLogExporter::class),
                     DeleteBulkAction::make(),
-                ]),
+                ])->visible(fn () => Auth::user()->hasRole(['Administrator', 'Director', 'Senior Supervisor'])),
             ]);
     }
 }

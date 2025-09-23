@@ -2,19 +2,21 @@
 
 namespace App\Filament\Resources\CameraAudits;
 
-use App\Filament\Resources\CameraAudits\Pages\CreateCameraAudit;
+use UnitEnum;
+use BackedEnum;
+use Filament\Tables\Table;
+use App\Models\CameraAudit;
+use Filament\Schemas\Schema;
+use Filament\Resources\Resource;
+use Filament\Support\Icons\Heroicon;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\CameraAudits\Pages\EditCameraAudit;
-use App\Filament\Resources\CameraAudits\Pages\ListCameraAudits;
 use App\Filament\Resources\CameraAudits\Pages\ViewCameraAudit;
+use App\Filament\Resources\CameraAudits\Pages\ListCameraAudits;
+use App\Filament\Resources\CameraAudits\Pages\CreateCameraAudit;
 use App\Filament\Resources\CameraAudits\Schemas\CameraAuditForm;
 use App\Filament\Resources\CameraAudits\Tables\CameraAuditsTable;
-use App\Models\CameraAudit;
-use BackedEnum;
-use UnitEnum;
-use Filament\Resources\Resource;
-use Filament\Schemas\Schema;
-use Filament\Support\Icons\Heroicon;
-use Filament\Tables\Table;
 
 class CameraAuditResource extends Resource
 {
@@ -41,6 +43,14 @@ class CameraAuditResource extends Resource
         return [
             //
         ];
+    }
+
+    public static function getRecordRouteBindingEloquentQuery(): Builder
+    {
+        return parent::getRecordRouteBindingEloquentQuery()
+            ->withoutGlobalScopes([
+                SoftDeletingScope::class,
+            ]);
     }
 
     public static function getPages(): array

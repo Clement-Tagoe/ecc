@@ -18,6 +18,7 @@ use Filament\Tables\Enums\FiltersLayout;
 use Filament\Forms\Components\DatePicker;
 use Filament\Tables\Filters\SelectFilter;
 use Illuminate\Database\Eloquent\Builder;
+use Filament\Tables\Filters\TrashedFilter;
 use App\Filament\Exports\CameraAuditExporter;
 use Filament\Tables\Columns\SpatieMediaLibraryImageColumn;
 
@@ -64,7 +65,7 @@ class CameraAuditsTable
                 Filter::make('created_at')
                     ->schema([
                         DatePicker::make('created_from')
-                            ->default(Carbon::today()->subDays(2)),
+                            ->default(Carbon::today()->subDays(1)),
                         DatePicker::make('created_until')
                             ->default(Carbon::today()),
                     ])
@@ -97,6 +98,7 @@ class CameraAuditsTable
                             'online' => 'online',
                             'offline' => 'offline',
                         ]),
+                    TrashedFilter::make(),
                 ], layout: FiltersLayout::AboveContent)
             ->recordActions([
                 ViewAction::make(),
@@ -104,10 +106,10 @@ class CameraAuditsTable
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
-                     ExportBulkAction::make()
+                    ExportBulkAction::make()
                         ->exporter(CameraAuditExporter::class),
                     DeleteBulkAction::make(),
-                ]),
+                ])->visible(fn () => Auth::user()->hasRole(['Administrator', 'Director', 'Senior Supervisor'])),
             ]);
     }
 }

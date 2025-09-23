@@ -25,6 +25,7 @@ return new class extends Migration
             $table->text('recommendation');
             $table->string('created_by');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

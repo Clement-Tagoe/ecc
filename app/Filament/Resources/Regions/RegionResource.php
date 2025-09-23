@@ -7,6 +7,8 @@ use App\Filament\Resources\Regions\Pages\EditRegion;
 use App\Filament\Resources\Regions\Pages\ListRegions;
 use App\Filament\Resources\Regions\Schemas\RegionForm;
 use App\Filament\Resources\Regions\Tables\RegionsTable;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Database\Eloquent\Builder;
 use App\Models\Region;
 use BackedEnum;
 use UnitEnum;
@@ -42,6 +44,14 @@ class RegionResource extends Resource
         return [
             //
         ];
+    }
+
+    public static function getRecordRouteBindingEloquentQuery(): Builder
+    {
+        return parent::getRecordRouteBindingEloquentQuery()
+            ->withoutGlobalScopes([
+                SoftDeletingScope::class,
+            ]);
     }
 
     public static function getPages(): array
